@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css">
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <link rel="stylesheet" href="./static/style/marketing.css">
+    <link rel="stylesheet" href="./static/style/nextlaunch.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="./static/scripts/nextlaunch.js"></script>
+</head>
+
+<body>
+    <div class="splash-container">
+        <div class="splash" >
+            <h1 class="splash-head" id="launch_countdown">5 - 22:54:32</h1>
+            <p class="splash-subhead" id="launch_details"></p>
+            <p>
+            </p>
+        </div>
+    </div>
+    <script>
+    
+        function selectBackground(){
+            var images = [
+                'http://www.nasa.gov/images/content/214569main_image_1028_1600-1200.jpg',
+                'http://www.jpl.nasa.gov/spaceimages/images/wallpaper/PIA17563-1920x1200.jpg',
+                'http://www.nasa.gov/images/content/473892main_1736_full.jpg',
+                'http://photojournal.jpl.nasa.gov/jpeg/PIA08040.jpg',
+                'http://www.nasa.gov/centers/marshall/images/content/747383main_ngc6240_3600x3000.jpg',
+                'http://photojournal.jpl.nasa.gov/jpeg/PIA10181.jpg',
+                'http://www.nasa.gov/images/content/65076main_ISS_ivan_0913_full.jpg',
+                'http://www.nasa.gov/externalflash/universe-200705/hi-resjpgs/4.jpg',
+                'http://photojournal.jpl.nasa.gov/jpeg/PIA17011.jpg',
+                'http://www.nasa.gov/sites/default/files/thumbnails/image/magnetar_burst_torsional_waves_4096.jpg'
+            ];
+            var index = Math.floor(Math.random() * images.length);
+            console.log(index);
+            $('.splash-container').css('background-image','url('+images[index]+')');
+        }
+
+        function getNextLaunch(){
+            var self = this;
+            var url = 'http://www.nasa.gov/ws/next_launch.jsonp?format_output=1&display_id=page_1&calendar_name=Launch%20Calendar&start=Sat%20Apr%2011%202015&callback=?';
+            $.getJSON(
+                url
+            ).done(function(launch){
+                $('#launch_details').html(launch.nodes[0].node.title+'<br/><br/>'+launch.nodes[0].node.description);
+                startClock(launch.nodes[0].node.start);
+            });
+
+        }
+
+        function startClock(launchTime){
+            var secondsLeft = 24*60*60*3+4325;
+            var launchCountdown = setInterval(clock, 1000);
+            function clock(){
+                secondsLeft = secondsLeft - 1;
+                if(secondsLeft<0){
+                    clearInterval(launchCountdown);
+                    return;
+                }
+                var secondsInDay = 24*60*60;
+                var secondsInHour = 60*60;
+                var secondsInMinute = 60;
+                var days = parseInt(secondsLeft / (24*60*60));
+                var hours = parseInt((secondsLeft % secondsInDay) / secondsInHour);
+                var minutes = parseInt((secondsLeft % secondsInHour) / secondsInMinute);
+                var seconds = parseInt((secondsLeft % secondsInMinute));
+                hours = '00'+hours
+                var formattedTimeLeft = days+' days - '+pad(hours)+':'+pad(minutes)+':'+pad(seconds);
+                $('#launch_countdown').html(formattedTimeLeft);
+            }
+        }
+        
+        function pad(i){
+            return ('00'+i).substr(('00'+i).length-2);
+        }
+
+        function start(){
+            selectBackground();
+            getNextLaunch();
+        }
+
+        $().ready(start);
+    </script>
+</body>
+
+</html>
