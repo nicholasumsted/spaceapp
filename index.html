@@ -14,14 +14,12 @@
 <body>
     <div class="splash-container">
         <div class="splash" >
-            <h1 class="splash-head" id="launch_countdown">5 - 22:54:32</h1>
-            <p class="splash-subhead" id="launch_details"></p>
-            <p>
-            </p>
+            <h2 class="splash-subhead" id="launch_title"></h1>
+            <h2 class="splash-head" id="launch_countdown">&nbsp;</h1>
+            <p class="splash-subhead" id="launch_description"></p>
         </div>
     </div>
     <script>
-    
         function selectBackground(){
             var images = [
                 'http://www.nasa.gov/images/content/214569main_image_1028_1600-1200.jpg',
@@ -46,14 +44,16 @@
             $.getJSON(
                 url
             ).done(function(launch){
-                $('#launch_details').html(launch.nodes[0].node.title+'<br/><br/>'+launch.nodes[0].node.description);
+                $('#launch_title').html(launch.nodes[0].node.title);
+                $('#launch_description').html(launch.nodes[0].node.description);
                 startClock(launch.nodes[0].node.start);
             });
-
         }
 
-        function startClock(launchTime){
-            var secondsLeft = 24*60*60*3+4325;
+        function startClock(launchTimeString){
+            var launchTime = new Date(launchTimeString).getTime() / 1000;
+            var now = new Date().getTime() / 1000;
+            var secondsLeft = launchTime - now;
             var launchCountdown = setInterval(clock, 1000);
             function clock(){
                 secondsLeft = secondsLeft - 1;
