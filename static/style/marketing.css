@@ -132,7 +132,6 @@ a.pure-button-primary {
  */
 
 .splash-container {
-    background-color: #1f8dd6;
     z-index: 1;
     overflow: hidden;
     /* The following styles are required for the "scroll-over" effect */
@@ -141,19 +140,15 @@ a.pure-button-primary {
     top: 0;
     left: 0;
     position: fixed !important;
-/*    background: url("http://www.nasa.gov/externalflash/universe-200705/hi-resjpgs/4.jpg") no-repeat 0 0 scroll;*/
-    background: url("http://www.nasa.gov/images/content/65076main_ISS_ivan_0913_full.jpg") no-repeat 0 0 scroll;
 }
 
 .splash {
     /* absolute center .splash within .splash-container */
     width: 80%;
-    height: 50%;
     margin: auto;
     position: absolute;
     top: 0; left: 0; bottom: 0; right: 0;
     text-align: center;
-    text-transform: uppercase;
 }
 
 /* This is the main heading that appears on the blue section */
@@ -260,7 +255,7 @@ a.pure-button-primary {
     to work with */
     .splash {
         width: 50%;
-        height: 50%;
+/*        height: 50%;*/
     }
 
     .splash-head {

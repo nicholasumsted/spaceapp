@@ -33,7 +33,7 @@
             ];
             var index = Math.floor(Math.random() * images.length);
             console.log(index);
-            $('.splash-container').css('background-image','url('+images[index]+')');
+            $('body').css('background-image','url('+images[index]+')');
         }
 
         function getNextLaunch(){
@@ -42,19 +42,18 @@
             $.getJSON(
                 url
             ).done(function(launch){
-                $('#launch_title').html(launch.nodes[0].node.title);
+                $('#launch_title').html('Next Launch<br/><br/>'+launch.nodes[0].node.title);
                 $('#launch_description').html(launch.nodes[0].node.description);
                 startClock(launch.nodes[0].node.start);
             });
         }
 
         function startClock(launchTimeString){
-            var launchTime = new Date(launchTimeString).getTime() / 1000;
-            var now = new Date().getTime() / 1000;
-            var secondsLeft = launchTime - now;
+            var launchTime = Date.parse(launchTimeString.replace(/-/g, "/"))/1000;
             var launchCountdown = setInterval(clock, 1000);
             function clock(){
-                secondsLeft = secondsLeft - 1;
+                var now = new Date().getTime() / 1000;
+                var secondsLeft = launchTime - now;
                 if(secondsLeft<0){
                     clearInterval(launchCountdown);
                     return;
@@ -67,7 +66,8 @@
                 var minutes = parseInt((secondsLeft % secondsInHour) / secondsInMinute);
                 var seconds = parseInt((secondsLeft % secondsInMinute));
                 hours = '00'+hours
-                var formattedTimeLeft = days+' days - '+pad(hours)+':'+pad(minutes)+':'+pad(seconds);
+                var daysLabel = (days==1)?' day - ':' days - ';
+                var formattedTimeLeft = days+daysLabel+pad(hours)+':'+pad(minutes)+':'+pad(seconds);
                 $('#launch_countdown').html(formattedTimeLeft);
             }
         }
@@ -76,11 +76,16 @@
             return ('00'+i).substr(('00'+i).length-2);
         }
 
+        function hideAddressBar(){
+            setTimeout(function(){window.scrollTo(0, 1);}, 0);            
+        }
+
         function start(){
+            hideAddressBar();
             selectBackground();
             getNextLaunch();
         }
-
+        
         $().ready(start);
     </script>
 </body>
