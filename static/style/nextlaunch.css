@@ -1,0 +1,152 @@
+body {
+    font-size: 15px ;
+    font-family: sans-serif;
+    background-color: #ffffff;
+    margin: 0;
+}
+
+a, a:visited, a:hover, a:active {
+    color: inherit;
+    text-decoration: none;
+}
+
+.cf:before, .cf:after { content: ""; display: table; }
+.cf:after { clear: both; }
+.cf { zoom: 1; }
+
+.container {
+    margin: 0 auto;
+    width: 990px;
+    position: relative;
+}
+
+.cellophane {
+    width: 600px;
+    margin: 100px auto 0 auto;
+    background-color: rgba(0,0,0,.5);
+    border-radius: 5px;
+}
+
+.full {
+    width: 100%;
+}
+
+.almost-full {
+    width: 75%;
+}
+
+.half {
+    width: 50%;
+}
+.cellophane .split {
+    position: relative;
+    float: left;
+    width: 50%;
+}
+
+.with-a-bow {
+    border: 1px solid #666666;
+    border-radius: 3px;
+    min-height: 250px;
+}
+
+.entity-container {
+    margin: 10px;
+    color: #ffffff;
+}
+
+.entity-container .entity-row {
+    position: relative;
+    float: left;
+    width: 100%;
+    margin-bottom: 10px;
+}
+.entity-container .entity-row .label-cell {
+    position: relative;
+    float: left;
+    width: 40%;
+}
+.entity-container .entity-row .value-cell {
+    position: relative;
+    float: left;
+    width: 60%;
+    text-align: right;
+}
+
+.entity-container .entity-row .full-cell {
+    position: relative;
+    float: left;
+    text-align: center;
+    width: 100%;
+    line-height: 1.3em;
+}
+
+.entity-container .entity-row .formatted {
+    font-size: 1.4em;
+}
+
+.entity-container .entity-row .big-formatted {
+    font-size: 1.8em;
+}
+
+.entity-container .entity-row .sub-heading {
+    width: 100%;
+    font-size: 3em;
+    font-family: telegramarender;
+}
+
+.entity-container .entity-row .small-heading {
+    width: 100%;
+    font-size: 1.3em;
+}
+
+.entity-container .entity-row .clock {
+    width: 100%;
+    font-size: 3em;
+    font-family: telegramarender;
+    font-weight: 100;
+}
+
+.entity-container .with-space {
+    margin-bottom: 50px;
+}
+
+@media screen and (max-width: 600px) {
+    .entity-container .entity-row .sub-heading {
+        font-size: 2.5em;
+    }
+}
+
+@media screen and (max-width: 990px) {
+    .container{
+        width: 100%;
+    }
+
+    .cellophane{
+        width: 100%;
+        margin: 0;
+    }
+
+    .half {
+        width: 100%;
+    }
+
+    .almost-full {
+        width: 100%;
+    }
+
+    .cellophane .split {
+        position: relative;
+        float: left;
+        width: 100%;
+    }
+
+    .with-a-bow {
+        border-style: solid none solid none;
+        margin: 10px 0 10px 0;
+    }
+    .entity-container .entity-row .label-cell {
+        width: 38%;
+        margin-right: 2%;
+    }
+}
