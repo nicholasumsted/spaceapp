@@ -115,6 +115,9 @@ a, a:visited, a:hover, a:active {
     .entity-container .entity-row .sub-heading {
         font-size: 2.5em;
     }
+    .entity-container .entity-row .clock {
+        font-size: 2em;
+    }
 }
 
 @media screen and (max-width: 990px) {
