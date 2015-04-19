@@ -5,6 +5,8 @@
     <meta http-equiv="Pragma" content="no-cache, no-store">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Next Launch</title>
+    <link rel="shortcut icon" href="./static/images/favicon-rocket.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="./static/images/favicon-rocket.ico">
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
     <link href='http://fonts.googleapis.com/css?family=Orbitron:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="./static/style/telegrama.css">
@@ -49,11 +51,12 @@
                 $('#launch_title').html(launch.nodes[0].node.title);
                 $('#launch_description').html(launch.nodes[0].node.description);
                 startClock(launch.nodes[0].node.start);
+                $('body').css('background-image','url(http://www.nasa.gov'+launch.nodes[0].node.master_image+')');
             });
         }
 
         function startClock(launchTimeString){
-            var launchTime = Date.parse(launchTimeString.replace(/-/g, "/"))/1000;
+            var launchTime = Date.parse(launchTimeString.replace(/-/g, "/"))/1000 - 3600; // nasa bug
             var launchCountdown = setInterval(clock, 1000);
             function clock(){
                 var now = new Date().getTime() / 1000;
@@ -81,7 +84,7 @@
         }
 
         function start(){
-            selectBackground();
+            //selectBackground();
             getNextLaunch();
         }
         

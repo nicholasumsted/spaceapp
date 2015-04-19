@@ -1,7 +1,7 @@
 body {
     font-size: 15px ;
     font-family: sans-serif;
-    background-color: #ffffff;
+    background-color: #000000;
     margin: 0;
 }
 
@@ -23,7 +23,7 @@ a, a:visited, a:hover, a:active {
 .cellophane {
     width: 600px;
     margin: 100px auto 0 auto;
-    background-color: rgba(0,0,0,.5);
+    background-color: rgba(0,0,0,.8);
     border-radius: 5px;
 }
 
