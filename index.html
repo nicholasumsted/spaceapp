@@ -62,8 +62,7 @@
                 var now = new Date().getTime() / 1000;
                 var secondsLeft = launchTime - now;
                 if(secondsLeft<0){
-                    clearInterval(launchCountdown);
-                    return;
+                    secondsLeft = secondsLeft * -1
                 }
                 var secondsInDay = 24*60*60;
                 var secondsInHour = 60*60;
@@ -74,7 +73,7 @@
                 var seconds = parseInt((secondsLeft % secondsInMinute));
                 hours = '00'+hours
                 var daysLabel = (days==1)?' day - ':' days - ';
-                var formattedTimeLeft = days+' - '+pad(hours)+':'+pad(minutes)+':'+pad(seconds);
+                var formattedTimeLeft = days+'d '+pad(hours)+':'+pad(minutes)+':'+pad(seconds);
                 $('#launch_countdown').html(formattedTimeLeft);
             }
         }
