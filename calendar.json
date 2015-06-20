@@ -1,0 +1,52 @@
+{
+"calendarEvents": [
+{
+"nid": "353596",
+"type": "calendar_event",
+"urlQuery": "timeRange=201506200733--202501010101"
+},
+{
+"nid": "249950",
+"type": "calendar_event",
+"urlQuery": "timeRange=201506200733--202501010101"
+},
+{
+"nid": "249953",
+"type": "calendar_event",
+"urlQuery": "timeRange=201506200733--202501010101"
+},
+{
+"nid": "355610",
+"type": "calendar_event",
+"urlQuery": "timeRange=201506200733--202501010101"
+},
+{
+"nid": "249957",
+"type": "calendar_event",
+"urlQuery": "timeRange=201506200733--202501010101"
+},
+{
+"nid": "249961",
+"type": "calendar_event",
+"urlQuery": "timeRange=201506200733--202501010101"
+},
+{
+"nid": "249951",
+"type": "calendar_event",
+"urlQuery": "timeRange=201506200733--202501010101"
+},
+{
+"nid": "362267",
+"type": "calendar_event",
+"urlQuery": "timeRange=201506200733--202501010101"
+},
+{
+"nid": "249963",
+"type": "calendar_event",
+"urlQuery": "timeRange=201506200733--202501010101"
+}
+],
+"meta": {
+"total_rows": 9
+}
+}

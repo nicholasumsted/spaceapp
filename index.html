@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache, no-store">
@@ -13,90 +14,101 @@
     <link rel="stylesheet" href="./static/style/nextlaunch.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 </head>
+
 <body>
     <div class="container cf">
         <div class="cellophane cf">
-            <div class="entity-container cf" >
-                <div class="entity-row with-space"><div class="full-cell sub-heading"><i class="fa fa-rocket"></i>  Next Launch</div></div>
-                <div class="entity-row with-space"><div class="full-cell big-formatted" id="launch_title"></div></div>
-                <div class="entity-row with-space"><div class="full-cell clock" id="launch_countdown">&nbsp;</div></div>
-                <div class="entity-row"><div class="full-cell formatted" id="launch_description"></div></div>
+            <div class="entity-container cf">
+                <div class="entity-row with-space">
+                    <div class="full-cell sub-heading"><i class="fa fa-rocket"></i> Next Launch</div>
+                </div>
+                <div class="entity-row with-space">
+                    <div class="full-cell big-formatted" id="launch_title"></div>
+                </div>
+                <div class="entity-row with-space">
+                    <div class="full-cell clock" id="launch_countdown">&nbsp;</div>
+                </div>
+                <div class="entity-row">
+                    <div class="full-cell formatted" id="launch_description"></div>
+                </div>
             </div>
         </div>
     </div>
     <script>
-        function selectBackground(){
-            var images = [
-                'http://www.nasa.gov/images/content/214569main_image_1028_1600-1200.jpg',
-                'http://www.jpl.nasa.gov/spaceimages/images/wallpaper/PIA17563-1920x1200.jpg',
-                'http://www.nasa.gov/images/content/473892main_1736_full.jpg',
-                'http://photojournal.jpl.nasa.gov/jpeg/PIA08040.jpg',
-                'http://www.nasa.gov/centers/marshall/images/content/747383main_ngc6240_3600x3000.jpg',
-                'http://photojournal.jpl.nasa.gov/jpeg/PIA10181.jpg',
-                'http://www.nasa.gov/images/content/65076main_ISS_ivan_0913_full.jpg',
-                'http://www.nasa.gov/externalflash/universe-200705/hi-resjpgs/4.jpg',
-                'http://photojournal.jpl.nasa.gov/jpeg/PIA17011.jpg',
-                'http://www.nasa.gov/sites/default/files/thumbnails/image/magnetar_burst_torsional_waves_4096.jpg'
-            ];
-            var index = Math.floor(Math.random() * images.length);
-            $('body').css('background-image','url('+images[index]+')');
-        }
-
-        function getNextLaunch(){
+        function getNextLaunch() {
             var self = this;
-            var url = 'http://www.nasa.gov/ws/next_launch.jsonp?format_output=1&display_id=page_1&calendar_name=Launch%20Calendar&start=Sat%20Apr%2011%202015&callback=?';
+            var d = new Date();
+            var currentTimeStamp = padNum(d.getFullYear(), 4) + padNum(d.getMonth() + 1, 2) + padNum(d.getDate(), 2) + padNum(d.getUTCHours(), 2) + padNum(d.getUTCMinutes(), 2);
+            d.setFullYear(d.getFullYear() + 20);
+            var futureTimeStamp = padNum(d.getFullYear(), 4) + padNum(d.getMonth() + 1, 2) + padNum(d.getDate(), 2) + padNum(d.getUTCHours(), 2) + padNum(d.getUTCMinutes(), 2);
+            var calendarUrl = 'http://www.nasa.gov/api/1/query/calendar.jsonp?timeRange=' + currentTimeStamp + '--' + futureTimeStamp + '&calendars=6089&callback=?';
             $.getJSON(
-                url
-            ).done(function(launch){
-                $('#launch_title').html(launch.nodes[0].node.title);
-                $('#launch_description').html(launch.nodes[0].node.description);
-                startClock(launch.nodes[0].node.start);
-                $('body').css('background-image','url(http://www.nasa.gov'+launch.nodes[0].node.master_image+')');
+                calendarUrl
+            ).done(function (calendar) {
+                var eventId = calendar.calendarEvents[0].nid;
+                var launchUrl = 'http://www.nasa.gov/api/1/query/node/' + eventId + '.jsonp?callback=?';
+                $.getJSON(
+                    launchUrl
+                ).done(function (launch) {
+                    $('#launch_title').html(launch.calendarEvent.title);
+                    $('#launch_description').html(launch.calendarEvent.description);
+                    startClock(launch.calendarEvent.eventDate[0].value);
+                    $('body').css('background-image', 'url(http://www.nasa.gov' + launch.images[0].crop1x1 + ')');
+                });
             });
         }
 
-        function startClock(launchTimeString){
-            var launchTime = Date.parse(launchTimeString.replace(/-/g, "/"))/1000 - 3600; // nasa bug
+        function startClock(launchTimeString) {
+            var launchTime = Date.parse(launchTimeString) / 1000 - 3600;
             var launchCountdown = setInterval(clock, 1000);
-            function clock(){
+            function clock() {
                 var now = new Date().getTime() / 1000;
                 var secondsLeft = launchTime - now;
-                if(secondsLeft<0){
+                if (secondsLeft < 0) {
                     secondsLeft = secondsLeft * -1
                 }
-                var secondsInDay = 24*60*60;
-                var secondsInHour = 60*60;
+                var secondsInDay = 24 * 60 * 60;
+                var secondsInHour = 60 * 60;
                 var secondsInMinute = 60;
-                var days = parseInt(secondsLeft / (24*60*60));
+                var days = parseInt(secondsLeft / (24 * 60 * 60));
                 var hours = parseInt((secondsLeft % secondsInDay) / secondsInHour);
                 var minutes = parseInt((secondsLeft % secondsInHour) / secondsInMinute);
                 var seconds = parseInt((secondsLeft % secondsInMinute));
-                hours = '00'+hours
-                var daysLabel = (days==1)?' day - ':' days - ';
-                var formattedTimeLeft = days+'d '+pad(hours)+':'+pad(minutes)+':'+pad(seconds);
+                hours = '00' + hours
+                var daysLabel = (days == 1) ? ' day - ' : ' days - ';
+                var formattedTimeLeft = days + 'd ' + padNum(hours, 2) + ':' + padNum(minutes, 2) + ':' + padNum(seconds, 2);
                 $('#launch_countdown').html(formattedTimeLeft);
             }
         }
-        
-        function pad(i){
-            return ('00'+i).substr(('00'+i).length-2);
+
+        function padNum(v, n) {
+            var t = "000000"+v.toString();
+            var s = t.substring(t.toString().length - n);
+            return s;
         }
 
-        function start(){
-            //selectBackground();
+        function start() {
             getNextLaunch();
         }
-        
+
         $().ready(start);
     </script>
     <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
         ga('create', 'UA-51147843-5', 'auto');
         ga('send', 'pageview');
     </script>
 </body>
+
 </html>
