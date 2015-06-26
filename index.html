@@ -59,7 +59,7 @@
         }
 
         function startClock(launchTimeString) {
-            var launchTime = Date.parse(launchTimeString) / 1000 - 3600;
+            var launchTime = Date.parse(launchTimeString) / 1000;
             var launchCountdown = setInterval(clock, 1000);
             function clock() {
                 var now = new Date().getTime() / 1000;
