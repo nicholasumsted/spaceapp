@@ -38,9 +38,9 @@
         function getNextLaunch() {
             var self = this;
             var d = new Date();
-            var currentTimeStamp = padNum(d.getFullYear(), 4) + padNum(d.getMonth() + 1, 2) + padNum(d.getDate(), 2) + padNum(d.getUTCHours(), 2) + padNum(d.getUTCMinutes(), 2);
+            var currentTimeStamp = padNum(d.getFullYear(), 4) + padNum(d.getMonth() + 1, 2) + padNum(d.getDate(), 2) + padNum(d.getHours(), 2) + padNum(d.getMinutes(), 2);
             d.setFullYear(d.getFullYear() + 20);
-            var futureTimeStamp = padNum(d.getFullYear(), 4) + padNum(d.getMonth() + 1, 2) + padNum(d.getDate(), 2) + padNum(d.getUTCHours(), 2) + padNum(d.getUTCMinutes(), 2);
+            var futureTimeStamp = padNum(d.getFullYear(), 4) + padNum(d.getMonth() + 1, 2) + padNum(d.getDate(), 2) + padNum(d.getHours(), 2) + padNum(d.getUTCMinutes(), 2);
             var calendarUrl = 'http://www.nasa.gov/api/1/query/calendar.jsonp?timeRange=' + currentTimeStamp + '--' + futureTimeStamp + '&calendars=6089&callback=?';
             $.getJSON(
                 calendarUrl
